@@ -1,27 +1,32 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LevelController;
 
-Route::get('/', [App\Http\Controllers\PageController::class, 'index']);
+// --- ROUTE LATIHAN ROUTING ---
+// Route::get('/', [App\Http\Controllers\PageController::class, 'index']);
 
-Route::get('/hello', [App\Http\Controllers\WelcomeController::class, 'hello']);
+// Route::get('/hello', [App\Http\Controllers\WelcomeController::class, 'hello']);
 
-Route::get('/world', function () {
-    return "World";
-});
+// Route::get('/world', function () {
+//     return "World";
+// });
 
-Route::get('/about', [App\Http\Controllers\AboutController::class, 'about']);
+// Route::get('/about', [App\Http\Controllers\AboutController::class, 'about']);
 
 // Route::get('/user/{name}', function ($name) {
 //     return "Nama saya $name";
 // });
 
-Route::get('/user/{name?}', function ($name="John") {
-        return "Nama saya $name";
-});
+// Route::get('/user/{name?}', function ($name="John") {
+//        return "Nama saya $name";
+// });
 
-Route::get('/posts/{post}/comments/{comment}', function ($postId, $commentId) {
-    return "Pos ke-$postId Komentar ke-$commentId";
-});
+// Route::get('/posts/{post}/comments/{comment}', function ($postId, $commentId) {
+//     return "Pos ke-$postId Komentar ke-$commentId";
+// });
 
-Route::get('/articles/{id}', [App\Http\Controllers\ArticleController::class, 'articles']);
+// Route::get('/articles/{id}', [App\Http\Controllers\ArticleController::class, 'articles']);
+// --- BATAS ROUTE LATIHAN ROUTING ---
+
+Route::get('/level', [LevelController::class, 'index']);
