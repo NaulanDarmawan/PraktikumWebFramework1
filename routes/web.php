@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\LevelController;
+use App\Http\Controllers\KategoriController;
 
 // --- ROUTE LATIHAN ROUTING ---
 // Route::get('/', [App\Http\Controllers\PageController::class, 'index']);
@@ -30,3 +32,12 @@ use App\Http\Controllers\LevelController;
 // --- BATAS ROUTE LATIHAN ROUTING ---
 
 Route::get('/level', [LevelController::class, 'index']);
+Route::get('/kategori', [KategoriController::class, 'index']);
+Route::get('/user', [UserController::class, 'index']);
+
+// --- HASIL PRAKTIKUM 2.6 (CREATE, READ, UPDATE, DELETE) ---
+Route::get('/user/tambah', [UserController::class, 'tambah']);
+Route::post('/user/tambah_simpan', [UserController::class, 'tambah_simpan']);
+Route::get('/user/ubah/{id}', [UserController::class, 'ubah']);
+Route::put('/user/ubah_simpan/{id}', [UserController::class, 'ubah_simpan']);
+Route::get('/user/hapus/{id}', [UserController::class, 'hapus']);
