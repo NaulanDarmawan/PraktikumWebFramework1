@@ -21,3 +21,8 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+
+/public/adminlte/docs
+/public/adminlte/pages
+/public/adminlte/build
+/public/adminlte/.github
