@@ -110,6 +110,12 @@ Route::middleware(['auth'])->group(function () {
         });
 
         Route::group(['prefix' => 'barang'], function () {
+            // Route Import
+            Route::get('/import', [BarangController::class, 'import']);
+            Route::post('/import_ajax', [BarangController::class, 'import_ajax']);
+            Route::get('/export_excel', [BarangController::class, 'export_excel']);
+            Route::get('/export_pdf', [BarangController::class, 'export_pdf']);
+
             // Route Ajax
             Route::get('/create_ajax', [BarangController::class, 'create_ajax']);
             Route::post('/ajax', [BarangController::class, 'store_ajax']);
