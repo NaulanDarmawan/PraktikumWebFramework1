@@ -26,6 +26,12 @@ Route::middleware(['auth'])->group(function () {
     // Data Yang Hanya Dapat Diakses Oleh Admin (User, Level)
     Route::middleware(['authorize:ADM'])->group(function () {
         Route::group(['prefix' => 'level'], function () {
+            // Route Import
+            Route::get('/import', [LevelController::class, 'import']);
+            Route::post('/import_ajax', [LevelController::class, 'import_ajax']);
+            Route::get('/export_excel', [LevelController::class, 'export_excel']);
+            Route::get('/export_pdf', [LevelController::class, 'export_pdf']);
+
             // Route Khusus Ajax
             Route::get('/create_ajax', [LevelController::class, 'create_ajax']);
             Route::post('/ajax', [LevelController::class, 'store_ajax']);
@@ -73,7 +79,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/import_ajax', [KategoriController::class, 'import_ajax']);
             Route::get('/export_excel', [KategoriController::class, 'export_excel']);
             Route::get('/export_pdf', [KategoriController::class, 'export_pdf']);
-            
+
             // Route Ajax
             Route::get('/create_ajax', [KategoriController::class, 'create_ajax']);
             Route::post('/ajax', [KategoriController::class, 'store_ajax']);
