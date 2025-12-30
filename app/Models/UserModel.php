@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class UserModel extends Authenticatable
@@ -19,6 +20,7 @@ class UserModel extends Authenticatable
         "username",
         "nama",
         "password",
+        "avatar",
         "created_at",
         "updated_at"
     ];
@@ -30,6 +32,13 @@ class UserModel extends Authenticatable
     protected $casts = [
         'password' => 'hashed',
     ];
+
+    protected function avatar(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($avatar) => $avatar ? asset('storage/photos/' . $avatar) : asset('adminlte/dist/img/user2-160x160.jpg'),
+        );
+    }
 
     public function level() : BelongsTo
     {

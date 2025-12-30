@@ -6,6 +6,7 @@ use App\Models\UserModel;
 use App\Models\LevelModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -34,7 +35,7 @@ class UserController extends Controller
 
     public function list(Request $request)
     {
-        $users = UserModel::select('user_id', 'username', 'nama', 'level_id')
+        $users = UserModel::select('user_id', 'username', 'nama', 'level_id', 'avatar')
             ->with('level');
 
         if ($request->level_id) {
@@ -61,7 +62,7 @@ class UserController extends Controller
                     <button onclick='modalAction(\"$btnHapus\")' class='btn btn-danger btn-sm'>Hapus</button>
                 ";
             })
-            ->rawColumns(['aksi'])
+            ->rawColumns(['aksi', 'avatar'])
             ->make(true);
     }
 
@@ -194,6 +195,7 @@ class UserController extends Controller
                 'username' => 'required|string|min:3|unique:m_user,username',
                 'nama'     => 'required|string|max:100',
                 'password' => 'required|min:6',
+                'avatar'   => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
             ];
 
             $validator = Validator::make($request->all(), $rules);
@@ -206,7 +208,16 @@ class UserController extends Controller
                 ]);
             }
 
-            UserModel::create($request->all());
+            $input = $request->all();
+            if ($request->hasFile('avatar')) {
+                $file = $request->file('avatar');
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $file->storeAs('public/photos', $filename);
+                $input['avatar'] = $filename;
+            }
+
+            UserModel::create($input);
+
             return response()->json([
                 'status' => true,
                 'message' => 'Data user berhasil disimpan',
@@ -231,6 +242,7 @@ class UserController extends Controller
                 'username' => 'required|max:20|unique:m_user,username,' . $id . ',user_id',
                 'nama'     => 'required|max:100',
                 'password' => 'nullable|min:6|max:20',
+                'avatar'   => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
             ];
 
             $validator = Validator::make($request->all(), $rules);
@@ -243,26 +255,37 @@ class UserController extends Controller
                 ]);
             }
 
-            $check = UserModel::find($id);
+            $user = UserModel::find($id);
+            if ($user) {
+                $input = $request->all();
 
-            if ($check) {
+                if ($request->hasFile('avatar')) {
+                    $file = $request->file('avatar');
+                    $filename = time() . '_' . $file->getClientOriginalName();
+                    $file->storeAs('public/photos', $filename);
+
+                    if ($user->getRawOriginal('avatar')) {
+                        Storage::delete('public/photos/' . $user->getRawOriginal('avatar'));
+                    }
+
+                    $input['avatar'] = $filename;
+                }
+
                 if (!$request->filled('password')) {
                     $request->request->remove('password');
                 }
 
-                $check->update($request->all());
+                $user->update($input);
                 return response()->json([
-                    'status' => true,
-                    'message' => 'Data berhasil diupdate',
-                ]);
-            } else {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Data tidak ditemukan',
+                    'status'  => true,
+                    'message' => 'Data berhasil diupdate'
                 ]);
             }
+            return response()->json([
+                'status'  => false,
+                'message' => 'Data tidak ditemukan'
+            ]);
         }
-
         return redirect('/');
     }
 
@@ -278,6 +301,9 @@ class UserController extends Controller
             $user = UserModel::find($id);
 
             if ($user) {
+                if ($user->getRawOriginal('avatar')) {
+                    Storage::delete('public/photos/' . $user->getRawOriginal('avatar'));
+                }
                 $user->delete();
                 return response()->json([
                     'status' => true,

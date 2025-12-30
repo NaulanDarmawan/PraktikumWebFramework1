@@ -17,7 +17,8 @@
         </div>
     </div>
 @else
-    <form action="{{ url('/user/' . $user->user_id . '/update_ajax') }}" method="POST" id="form-edit">
+    <form action="{{ url('/user/' . $user->user_id . '/update_ajax') }}" method="POST" id="form-edit"
+        enctype="multipart/form-data">
 
         @csrf
         @method('PUT')
@@ -31,6 +32,15 @@
 
                 </div>
                 <div class="modal-body">
+                    <div class="form-group">
+                        <label>Foto Profil</label>
+                        <div class="mb-2">
+                            <img src="{{ $user->avatar }}" alt="Profile" class="img-thumbnail" width="100">
+                        </div>
+                        <input type="file" name="avatar" id="avatar" class="form-control">
+                        <small class="form-text text-muted">Abaikan jika tidak ingin mengganti foto</small>
+                        <small id="error-avatar" class="error-text form-text text-danger"></small>
+                    </div>
                     <div class="form-group">
                         <label>Level Pengguna</label>
                         <select name="level_id" id="level_id" class="form-control" required>
@@ -105,10 +115,14 @@
                     }
                 },
                 submitHandler: function(form) {
+                    var formData = new FormData(form);
+
                     $.ajax({
                         url: form.action,
                         type: form.method,
-                        data: $(form).serialize(),
+                        data: formData,
+                        processData: false,
+                        contentType: false,
                         success: function(response) {
                             if (response.status) {
                                 $('#myModal').modal('hide');

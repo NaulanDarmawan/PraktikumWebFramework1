@@ -94,6 +94,16 @@
                         searchable: false,
                     },
                     {
+                        data: "avatar",
+                        className: "text-center",
+                        orderable: false,
+                        searchable: false,
+                        render: function(data, type, row) {
+                            return '<img src="' + data +
+                                '" class="img-circle elevation-2" width="40" height="40">';
+                        }
+                    },
+                    {
                         data: "username",
                         className: "",
                         orderable: true,

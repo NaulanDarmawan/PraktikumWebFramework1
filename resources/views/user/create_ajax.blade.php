@@ -1,4 +1,4 @@
-<form action="{{ url('/user/ajax') }}" method="POST" id="form-tambah">
+<form action="{{ url('/user/ajax') }}" method="POST" id="form-tambah" enctype="multipart/form-data">
     @csrf
     <div id="modal-master" class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -8,6 +8,12 @@
                         aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
+                <div class="form-group">
+                    <label>Foto Profil</label>
+                    <input type="file" name="avatar" id="avatar" class="form-control">
+                    <small class="form-text text-muted">Format: jpg, jpeg, png. Max: 2MB</small>
+                    <small id="error-avatar" class="error-text form-text text-danger"></small>
+                </div>
                 <div class="form-group">
                     <label>Level Pengguna</label>
                     <select name="level_id" id="level_id" class="form-control" required>
@@ -70,10 +76,14 @@
                 }
             },
             submitHandler: function(form) {
+                var formData = new FormData(form);
+
                 $.ajax({
                     url: form.action,
                     type: form.method,
-                    data: $(form).serialize(),
+                    data: formData,
+                    processData: false,
+                    contentType: false,
                     success: function(response) {
                         if (response.status) {
                             $('#myModal').modal('hide');
