@@ -68,6 +68,12 @@ Route::middleware(['auth'])->group(function () {
     // Data Yang Hanya Dapat Diakses Oleh Admin & Manager (Kategori, Supplier, Barang)
     Route::middleware(['authorize:ADM,MNG'])->group(function () {
         Route::group(['prefix' => 'kategori'], function () {
+            // Route Import
+            Route::get('/import', [KategoriController::class, 'import']);
+            Route::post('/import_ajax', [KategoriController::class, 'import_ajax']);
+            Route::get('/export_excel', [KategoriController::class, 'export_excel']);
+            Route::get('/export_pdf', [KategoriController::class, 'export_pdf']);
+            
             // Route Ajax
             Route::get('/create_ajax', [KategoriController::class, 'create_ajax']);
             Route::post('/ajax', [KategoriController::class, 'store_ajax']);
