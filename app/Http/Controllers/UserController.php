@@ -212,7 +212,7 @@ class UserController extends Controller
             if ($request->hasFile('avatar')) {
                 $file = $request->file('avatar');
                 $filename = time() . '_' . $file->getClientOriginalName();
-                $file->storeAs('public/photos', $filename);
+                $file->storeAs('photos', $filename, 'public');
                 $input['avatar'] = $filename;
             }
 
@@ -262,11 +262,11 @@ class UserController extends Controller
                 if ($request->hasFile('avatar')) {
                     $file = $request->file('avatar');
                     $filename = time() . '_' . $file->getClientOriginalName();
-                    $file->storeAs('public/photos', $filename);
+                    $file->storeAs('photos', $filename, 'public');
 
                     $oldAvatar = $user->getRawOriginal('avatar');
-                    if ($oldAvatar && Storage::exists('public/photos/' . $oldAvatar)) {
-                        Storage::delete('public/photos/' . $oldAvatar);
+                    if ($oldAvatar && Storage::disk('public')->exists('photos/' . $oldAvatar)) {
+                        Storage::disk('public')->delete('photos/' . $oldAvatar);
                     }
 
                     $input['avatar'] = $filename;
@@ -303,7 +303,9 @@ class UserController extends Controller
 
             if ($user) {
                 if ($user->getRawOriginal('avatar')) {
-                    Storage::delete('public/photos/' . $user->getRawOriginal('avatar'));
+                    if (Storage::disk('public')->exists('photos/' . $user->getRawOriginal('avatar'))) {
+                        Storage::disk('public')->delete('photos/' . $user->getRawOriginal('avatar'));
+                    }
                 }
                 $user->delete();
                 return response()->json([
