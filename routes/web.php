@@ -53,6 +53,12 @@ Route::middleware(['auth'])->group(function () {
         });
 
         Route::group(['prefix' => 'user'], function () {
+            // Route Import
+            Route::get('/import', [UserController::class, 'import']);
+            Route::post('/import_ajax', [UserController::class, 'import_ajax']);
+            Route::get('/export_excel', [UserController::class, 'export_excel']);
+            Route::get('/export_pdf', [UserController::class, 'export_pdf']);
+
             Route::get('/', [UserController::class, 'index']);
             Route::post('/list', [UserController::class, 'list']);
             Route::get('/create', [UserController::class, 'create']);
