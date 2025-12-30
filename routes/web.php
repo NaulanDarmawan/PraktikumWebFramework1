@@ -107,6 +107,12 @@ Route::middleware(['auth'])->group(function () {
         });
 
         Route::group(['prefix' => 'supplier'], function () {
+            // Route Import
+            Route::get('/import', [SupplierController::class, 'import']);
+            Route::post('/import_ajax', [SupplierController::class, 'import_ajax']);
+            Route::get('/export_excel', [SupplierController::class, 'export_excel']);
+            Route::get('/export_pdf', [SupplierController::class, 'export_pdf']);
+
             // Route Ajax
             Route::get('/create_ajax', [SupplierController::class, 'create_ajax']);
             Route::post('/ajax', [SupplierController::class, 'store_ajax']);
