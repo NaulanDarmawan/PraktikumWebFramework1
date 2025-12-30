@@ -257,15 +257,16 @@ class UserController extends Controller
 
             $user = UserModel::find($id);
             if ($user) {
-                $input = $request->all();
+                $input = $request->except(['avatar', 'password']);
 
                 if ($request->hasFile('avatar')) {
                     $file = $request->file('avatar');
                     $filename = time() . '_' . $file->getClientOriginalName();
                     $file->storeAs('public/photos', $filename);
 
-                    if ($user->getRawOriginal('avatar')) {
-                        Storage::delete('public/photos/' . $user->getRawOriginal('avatar'));
+                    $oldAvatar = $user->getRawOriginal('avatar');
+                    if ($oldAvatar && Storage::exists('public/photos/' . $oldAvatar)) {
+                        Storage::delete('public/photos/' . $oldAvatar);
                     }
 
                     $input['avatar'] = $filename;

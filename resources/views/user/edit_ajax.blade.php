@@ -112,6 +112,9 @@
                     password: {
                         minlength: 6,
                         maxlength: 20
+                    },
+                    avatar: {
+                        extension: "jpg|jpeg|png"
                     }
                 },
                 submitHandler: function(form) {
@@ -119,7 +122,7 @@
 
                     $.ajax({
                         url: form.action,
-                        type: form.method,
+                        type: 'POST',
                         data: formData,
                         processData: false,
                         contentType: false,
@@ -143,6 +146,14 @@
                                     text: response.message
                                 });
                             }
+                        },
+                        error: function(xhr, status, error) {
+                            console.log(xhr.responseText);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error Server',
+                                text: 'Gagal menghubungi server.'
+                            });
                         }
                     });
                     return false;

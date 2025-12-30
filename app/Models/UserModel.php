@@ -36,11 +36,11 @@ class UserModel extends Authenticatable
     protected function avatar(): Attribute
     {
         return Attribute::make(
-            get: fn ($avatar) => $avatar ? asset('storage/photos/' . $avatar) : asset('adminlte/dist/img/user2-160x160.jpg'),
+            get: fn($avatar) => $avatar ? asset('storage/photos/' . $avatar) : asset('adminlte/dist/img/user2-160x160.jpg'),
         );
     }
 
-    public function level() : BelongsTo
+    public function level(): BelongsTo
     {
         return $this->belongsTo(LevelModel::class, 'level_id', 'level_id');
     }
@@ -50,12 +50,12 @@ class UserModel extends Authenticatable
         return $this->level->level_kode;
     }
 
-    public function getRoleName() : string
+    public function getRoleName(): string
     {
         return $this->level->level_nama;
     }
 
-    public function hasRole($role) : bool
+    public function hasRole($role): bool
     {
         return $this->level->level_kode === $role;
     }

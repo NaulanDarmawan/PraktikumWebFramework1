@@ -49,6 +49,7 @@
                 <thead>
                     <tr>
                         <th>ID</th>
+                        <th>Foto</th>
                         <th>Username</th>
                         <th>Nama</th>
                         <th>Level Pengguna</th>
