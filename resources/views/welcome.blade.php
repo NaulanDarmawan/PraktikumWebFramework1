@@ -100,7 +100,7 @@
                         <h3 class="card-title text-danger"><i class="fas fa-exclamation-triangle"></i> Stok Menipis</h3>
                     </div>
                     <div class="card-body">
-                        <p class="small text-muted mb-3">Sistem menyarankan untuk segera restok barang ini 🐾</p>
+                        <p class="small text-muted mb-3">Sistem menyarankan untuk segera restok barang ini</p>
                         <table class="table table-sm table-hover" id="table_low_stock">
                             <thead>
                                 <tr>
