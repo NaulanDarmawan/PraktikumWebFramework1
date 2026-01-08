@@ -24,6 +24,7 @@ Route::post('/register', [AuthController::class, 'store']);
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/', [WelcomeController::class, 'index']);
+    Route::get('/dashboard/low-stock', [WelcomeController::class, 'low_stock_list']);
 
     // Data Yang Hanya Dapat Diakses Oleh Admin (User, Level)
     Route::middleware(['authorize:ADM'])->group(function () {
