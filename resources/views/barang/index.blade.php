@@ -38,6 +38,7 @@
                         <th>Kode Barang</th>
                         <th>Nama Barang</th>
                         <th>Kategori</th>
+                        <th>Stok</th>
                         <th>Harga Beli</th>
                         <th>Harga Jual</th>
                         <th>Aksi</th>
@@ -93,6 +94,12 @@
                         data: "kategori.kategori_nama",
                         className: "",
                         orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: "stok",
+                        className: "",
+                        orderable: true,
                         searchable: false
                     },
                     {

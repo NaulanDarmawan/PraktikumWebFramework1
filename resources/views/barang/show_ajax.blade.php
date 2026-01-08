@@ -42,6 +42,10 @@
                         <td class="col-9">{{ $barang->barang_nama }}</td>
                     </tr>
                     <tr>
+                        <th class="text-right col-3">Stok Barang :</th>
+                        <td class="col-9">{{ $barang->stok }}</td>
+                    </tr>
+                    <tr>
                         <th class="text-right col-3">Harga Beli :</th>
                         <td class="col-9">{{ number_format($barang->harga_beli, 0, ',', '.') }}</td>
                     </tr>
